@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -54,6 +55,13 @@ h2::before{content:"";width:4px;height:22px;border-radius:2px;background:linear-
 .t1{background:rgba(56,189,248,.15);color:var(--cyan);border:1px solid rgba(56,189,248,.35)}
 .t2{background:rgba(167,139,250,.15);color:var(--violet);border:1px solid rgba(167,139,250,.35)}
 .t3{background:rgba(52,211,153,.15);color:var(--green);border:1px solid rgba(52,211,153,.35)}
+.t0{background:linear-gradient(90deg,rgba(251,191,36,.22),rgba(167,139,250,.22));color:var(--amber);border:1px solid rgba(251,191,36,.45)}
+.pin{border-color:rgba(251,191,36,.4);
+  box-shadow:0 0 0 1px rgba(251,191,36,.12),0 8px 34px -18px rgba(251,191,36,.55)}
+.pin h2::before{background:linear-gradient(180deg,var(--amber),var(--violet))}
+.pinbadge{display:inline-block;font-size:11px;padding:2px 9px;border-radius:20px;font-weight:700;
+  background:rgba(251,191,36,.18);color:var(--amber);border:1px solid rgba(251,191,36,.45);
+  margin-left:8px;vertical-align:middle;letter-spacing:.5px}
 .task-head h3{font-size:19px;margin:8px 0 6px}
 .task-head p{color:var(--dim);font-size:14px}
 
@@ -125,23 +133,233 @@ footer{margin-top:56px;padding-top:22px;border-top:1px solid var(--line);
   </div>
   <div class="eyebrow">Evaluation Campaigns Research</div>
   <h1>官方评测竞赛调研<br><span class="accent">结果总览与成果下载</span></h1>
-  <p class="sub">覆盖信息检索（TREC / CLEF / NTCIR / FIRE / MS MARCO 等）与语音机器翻译（IWSLT / WMT / CHiME 等）
-     两大方向的官方评测竞赛调研，以及面向 CAD 语义检索平台的自建评测集方案。三项任务均已在真实或合成数据上完成端到端验证。</p>
+  <p class="sub">覆盖<b> AI 剧目生成</b>（单机多剧产能规划与赛事评审一致性）、信息检索（TREC / CLEF / NTCIR / FIRE / MS MARCO 等）
+     与语音机器翻译（IWSLT / WMT / CHiME 等）三大方向的官方评测竞赛调研，以及面向 CAD 语义检索平台的自建评测集方案。
+     四项任务均已在真实或合成数据上完成端到端验证。</p>
   <div class="stats">
-    <div class="stat"><b>3</b><span>调研报告（PDF）</span></div>
-    <div class="stat"><b>42</b><span>报告总页数</span></div>
-    <div class="stat"><b>13</b><span>可运行脚本</span></div>
+    <div class="stat"><b>4</b><span>调研报告（PDF）</span></div>
+    <div class="stat"><b>60</b><span>报告总页数</span></div>
+    <div class="stat"><b>17</b><span>可运行脚本</span></div>
     <div class="stat"><b>1992</b><span>评测史起点 TREC-1</span></div>
   </div>
 </header>
 
 <nav>
+  <a href="#t0">置顶任务 · AI 剧目生成</a>
   <a href="#t1">任务 1 · 官方评测竞赛</a>
   <a href="#t2">任务 2 · CAD 自建评测集</a>
   <a href="#t3">任务 3 · 语音机器翻译</a>
   <a href="#data">实测数据</a>
   <a href="#download">下载中心</a>
 </nav>
+
+<section id="t0" class="pin">
+  <h2>置顶任务 · AI 剧目生成<span class="pinbadge">置顶</span></h2>
+  <p class="lead">目标：在<b>现有自有设备</b>上高效产出多部 AI 剧目，突破"一台设备只能出一部剧"的产能瓶颈。
+    产出工具包已在本机实跑验证，四项核心结论均来自可复现的模拟与体检。</p>
+
+  <div class="task">
+    <div class="task-head">
+      <div>
+        <span class="tag t0">产能规划 + 评审一致性</span>
+        <h3>一台设备能不能同时出多部剧？——能，但上限由显存钉死</h3>
+        <p>用户原始需求：<b>"我们需要的是能基于我们设备的前提下高效制作 AI 剧目的程序……一台设备只能产出一部剧，
+          我们的想法是争取一台设备同时能产出多部剧目，提高效率"</b></p>
+      </div>
+      <div class="mono" style="color:var(--dim);text-align:right">
+        <div>报告 18 页</div><div>工具 4 个</div>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="box">
+        <h4>显存墙（硬约束）</h4>
+        <ul>
+          <li>单卡可常驻剧目数 <span>= ⌊(显存 − 共享 − 预留) / 单剧工作集⌋</span></li>
+          <li>RTX 4090 24GB <span>无 NVLink，4 卡 ≠ 96GB 统一显存</span></li>
+          <li>实测：2 卡 × 24GB <span>→ 槽位 <b class="num">2</b> 个</span></li>
+        </ul>
+      </div>
+      <div class="box">
+        <h4>并发的真实收益</h4>
+        <ul>
+          <li>总吞吐 <span>相对串行仅 <b class="num">+9.3%</b></span></li>
+          <li>首集交付 <span>相对串行 <b class="num">−74.1%</b>（3.32h → 0.86h）</span></li>
+          <li>想提吞吐 <span>只能降单镜头耗时，加并发无用</span></li>
+        </ul>
+      </div>
+      <div class="box">
+        <h4>最有效的一招</h4>
+        <ul>
+          <li>按剧批量排产 <span>切换次数 599 → 74</span></li>
+          <li>切换开销 <span><b class="num">27.0% → 4.4%</b></span></li>
+          <li>比换调度策略收益更大 <span>却最容易被忽视</span></li>
+        </ul>
+      </div>
+      <div class="box">
+        <h4>评审一致性（鲸锐口径）</h4>
+        <ul>
+          <li>四维：<span>选题创意 / 叙事技巧 / 视听语言 / 社会价值</span></li>
+          <li>Kendall's W <span>把主观评审拉到客观地面的唯一抓手</span></li>
+          <li>留一法 <span>去掉任一评委，前三名变不变</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <details open>
+      <summary>核心结论：这个领域<span style="color:var(--amber)">没有</span>官方技术评测</summary>
+      <div class="dbody">
+        <p>沿用任务 1 的划线标准（注册制 + 官方 qrels/test set + 官方 scorer + proceedings），
+           AI 视频生成领域<b>不存在</b> TREC / IWSLT 那种官方技术评测：</p>
+        <p>· 学术侧 VBench / EvalCrafter / FETV / T2VSafetyBench 均为<b>研究团队发布的基准</b>，无主办机制；<br>
+           · 工业侧 Artificial Analysis Video Arena 为<b>商业榜单</b>，测试集不公开、不可复现；<br>
+           · 国内赛事（鲸锐、河马杯、腾讯 i 短剧、北京 AIGC、上海提示未来）<b>全部是作品评选型</b>，评委主观打分，无技术指标。</p>
+        <p><b>根本原因</b>：视频的"正确输出"无法枚举，Cranfield 范式在此失效；单部成片需数十机时，
+           参赛样本量支撑不起统计显著性检验；且买方是内容平台而非系统工程师，需求的是能播的片子。</p>
+        <p><b>应对</b>：不硬套任务 1 的思路，改为把主观评审过程<b>结构化</b>（固定维度/权重/量表），
+           并把<b>评委一致性</b>做成可计算的客观指标（Kendall's W）。</p>
+      </div>
+    </details>
+  </div>
+
+  <h3 style="font-size:17px;margin:26px 0 6px">调度策略对比（离散事件模拟，2 卡 × 24GB，3 部剧）</h3>
+  <div class="tblwrap">
+    <table>
+      <colgroup><col style="width:16%"><col style="width:11%"><col style="width:12%"><col style="width:11%"><col style="width:12%"><col style="width:12%"><col style="width:13%"><col style="width:13%"></colgroup>
+      <thead><tr><th>策略</th><th>总完工 h↓</th><th>GPU 利用率↑</th><th>切换次数↓</th><th>切换开销↓</th><th>首集交付 h↓</th><th>单剧完成 h↓</th><th>镜头/小时↑</th></tr></thead>
+      <tbody>
+        <tr><td>serial 串行</td><td>9.01</td><td>86.7%</td><td>2</td><td>0.1%</td><td>3.32</td><td>6.01</td><td>66.6</td></tr>
+        <tr><td>fifo</td><td>12.32</td><td>63.4%</td><td>599</td><td class="warn">27.0%</td><td>1.25</td><td>12.30</td><td>48.7</td></tr>
+        <tr><td>round_robin</td><td>12.32</td><td>63.4%</td><td>599</td><td class="warn">27.0%</td><td>1.25</td><td>12.30</td><td>48.7</td></tr>
+        <tr><td>batch_by_drama</td><td>9.41</td><td>83.0%</td><td>74</td><td>4.4%</td><td>0.97</td><td>9.29</td><td>63.8</td></tr>
+        <tr><td><b>pipeline 流水线</b></td><td><b class="num">8.24</b></td><td><b class="num">94.8%</b></td><td>74</td><td>5.0%</td><td><b class="num">0.86</b></td><td><b class="num">8.14</b></td><td><b class="num">72.8</b></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="lead" style="margin-top:8px">判读：流水线吞吐最优但仅 +9.3%；首集交付缩短 <b>74.1%</b>。
+    FIFO / 轮转的 27% 时间全花在换 LoRA 上，是"排产粒度太细"的反例。</p>
+
+  <h3 style="font-size:17px;margin:26px 0 6px">产能反解：同时并行上限 vs 累计交付数</h3>
+  <div class="tblwrap">
+    <table>
+      <colgroup><col style="width:13%"><col style="width:12%"><col style="width:10%"><col style="width:12%"><col style="width:14%"><col style="width:12%"><col style="width:13%"><col style="width:14%"></colgroup>
+      <thead><tr><th>并行剧数</th><th>并发槽位</th><th>排队</th><th>镜头数</th><th>GPU 工时 h</th><th>工期 h</th><th>首集 h</th><th>单镜头摊薄 min</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>2</td><td>0</td><td>60</td><td>2.65</td><td>3.26</td><td>3.29</td><td>3.26</td></tr>
+        <tr><td>2</td><td>2</td><td>0</td><td>120</td><td>5.31</td><td>3.30</td><td>3.29</td><td><b class="num">1.65</b>（+97.7%）</td></tr>
+        <tr><td>3</td><td>2</td><td>1</td><td>180</td><td>7.96</td><td>4.96</td><td>3.29</td><td class="warn">1.65（−0.1%）</td></tr>
+        <tr><td>4</td><td>2</td><td>2</td><td>240</td><td>10.62</td><td>6.61</td><td>3.29</td><td class="warn">1.65（−0.1%）</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="hl">
+    <b>饱和点（2 部）正好等于显存槽位数</b> —— 拐点由<b>显存</b>决定，不是由调度算法决定。
+    3 天工期内累计可交付 36 部，但同时并行上限仍是 2 部，36 部是靠分批跑完的。
+    这两个数必须分开报，只报一个必然误导。
+  </div>
+
+  <h3 style="font-size:17px;margin:26px 0 6px">评审一致性与排名稳定性</h3>
+  <div class="tblwrap">
+    <table>
+      <colgroup><col style="width:34%"><col style="width:18%"><col style="width:48%"></colgroup>
+      <thead><tr><th>维度（鲸锐四维口径）</th><th>Kendall's W</th><th>判读</th></tr></thead>
+      <tbody>
+        <tr><td>选题创意</td><td>0.605</td><td>基本一致，排序可用，分数差需谨慎</td></tr>
+        <tr><td>叙事技巧</td><td>0.481</td><td>中等一致，建议增加评委或开校准会</td></tr>
+        <tr><td>视听语言</td><td>0.605</td><td>基本一致，排序可用，分数差需谨慎</td></tr>
+        <tr><td>社会价值</td><td>0.418</td><td>中等一致，量表需细化到锚点案例</td></tr>
+        <tr><td><b>四维平均</b></td><td><b class="num">0.528</b></td><td>留一法 2/5 次导致前三名变化 → <b>头部可信，边缘名次不可信</b></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="lead" style="margin-top:8px">经验参照：TREC 池化人工判定的 κ 通常在 0.6–0.8。AIGC 作品评选若 W &lt; 0.4，
+    排名基本等同于抽签——此时"没获奖"不代表作品差，只代表评审噪声大。</p>
+
+  <h3 style="font-size:17px;margin:26px 0 6px">四大工具（零第三方依赖，本机实跑通过）</h3>
+  <div class="grid">
+    <div class="box">
+      <h4>throughput_sim.py</h4>
+      <ul>
+        <li>5 策略离散事件模拟 <span>串行 / FIFO / 轮转 / 按剧批量 / 流水线</span></li>
+        <li>输出 <span>总完工、GPU 利用率、切换开销、首集交付</span></li>
+      </ul>
+    </div>
+    <div class="box">
+      <h4>plan_production.py</h4>
+      <ul>
+        <li>产能反解 <span>显存墙 + 时间墙 + 切换墙</span></li>
+        <li>输出 <span>同时并行上限、累计交付数、饱和拐点</span></li>
+      </ul>
+    </div>
+    <div class="box">
+      <h4>rubric_score.py</h4>
+      <ul>
+        <li>四维评分 <span>默认鲸锐口径，可换任意赛事量表</span></li>
+        <li>输出 <span>Kendall's W、加权排名、留一法翻转率</span></li>
+      </ul>
+    </div>
+    <div class="box">
+      <h4>check_deliverable.py</h4>
+      <ul>
+        <li>提交前体检 <span>资格闸门 / 技术规格 / 字幕合规</span></li>
+        <li>字幕口径 <span>沿用 IWSLT 2026：中文 CPS≤9、CPL≤16、LPB≤2</span></li>
+        <li>退出码 <span>有阻塞项返回 1，可直接接 CI</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <details>
+    <summary>鲸锐 AI 创作大赛（虎鲸文娱）：国内首个千万级 AI 视频赛事</summary>
+    <div class="dbody">
+      <p><b>启动</b> 2026-09-17，<b>截稿</b> 2026-11-22。<b>奖金池 1000 万元</b>，<b>265 个获奖名额</b>——
+         不是少数头部通吃，这是它区别于其他赛事的最大特点。</p>
+      <div class="tblwrap">
+        <table>
+          <colgroup><col style="width:42%"><col style="width:16%"><col style="width:20%"><col style="width:22%"></colgroup>
+          <thead><tr><th>奖项</th><th>名额</th><th>单笔</th><th>小计</th></tr></thead>
+          <tbody>
+            <tr><td>鲸锐人才奖</td><td>1</td><td>200 万</td><td>200 万</td></tr>
+            <tr><td>最佳原创 IP 奖</td><td>4</td><td>50 万</td><td>200 万</td></tr>
+            <tr><td>单项奖（创意表达/叙事结构/视觉效果/角色塑造）</td><td>4 类 × 5</td><td>10 万</td><td>200 万</td></tr>
+            <tr><td>新锐创作者奖</td><td>40</td><td>5 万</td><td>200 万</td></tr>
+            <tr><td>潜力创作者奖</td><td>200</td><td>1 万</td><td>200 万</td></tr>
+            <tr><td><b>合计</b></td><td><b>265</b></td><td>—</td><td><b>1000 万</b></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:10px"><b>三项硬门槛</b>（不满足直接淘汰，不看分数）：成片 <b>≥10 分钟</b>；
+         故事陈述 <b>≥1000 字</b>；<b>原创</b>，非既有 IP 改编。工具与题材不限。</p>
+      <p><b>评审四维</b>：选题创意 / 叙事技巧 / 视听语言 / 社会价值。前 25 名进入线下提案环节。</p>
+      <p><b>生态</b>：优酷（线上展播）、大麦娱乐（线下）、TapNow（独家 AIGC 生态伙伴）。
+         人才计划含大师面对面、创作沙龙、作品展映。</p>
+      <p><b>前身脉络</b>：春苗编剧计划（2024，3000+ 创作者，落地 20 部剧本）、海纳国际青年导演计划、虎鲸超越班。</p>
+      <p><b>产业背景</b>：2024 年中国微短剧市场 <b>504.4 亿元</b>（+34.9%，首超电影票房），
+         用户 <b>5.76 亿</b>（网民 52.4%），北京一地 336.2 亿元约占全国三分之二；预计 2027 年达 1000 亿元。
+         AIGC 可降本 <b>30% 以上</b>；传统微短剧拍摄周期 7–10 天、成本 30–50 万元。</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>推荐落地架构：单卡单实例 + Python 调度器</summary>
+    <div class="dbody">
+      <p>RTX 4090 24GB <b>无 NVLink</b>，4 张卡不是 96GB 统一显存，而是四块互不相通的 24GB。
+         不要把多卡塞进一个 ComfyUI 实例——每卡一个独立进程，由外部调度器分发。</p>
+      <pre class="mono" style="background:var(--bg2);border:1px solid var(--line);border-radius:8px;padding:12px;overflow-x:auto;color:var(--dim)">                 Python 调度器（任务队列 / 批次编排 / 失败重做）
+                              │ HTTP
+          ┌───────────────────┼───────────────────┐
+      ComfyUI :8188       ComfyUI :8189       ComfyUI :8190
+        GPU0 24GB           GPU1 24GB           GPU2 24GB
+        剧A/B 轮换          剧C/D 轮换          剧E/F 轮换
+          └──────── CPU 侧：TTS / 合流 / 封装（与 GPU 重叠）────────┘</pre>
+      <p style="margin-top:10px"><b>优化参数</b>：<span class="mono">--highvram / --medvram / --lowvram</span>、
+         <span class="mono">--fp16-unet</span>、<span class="mono">--bf16-vae</span>、
+         <span class="mono">--xformers</span>、<span class="mono">--cache-lru</span>、
+         <span class="mono">torch.cuda.empty_cache()</span>。</p>
+      <p><b>提醒</b>：工具里的所有数字都是<b>示例值</b>。请先 <span class="mono">--dump-config</span>
+         导出参数模板，用你自己的实测单镜头耗时、废片率、显存占用回填，结论才可信。</p>
+    </div>
+  </details>
+</section>
 
 <section id="t1">
   <h2>任务 1 · 官方评测竞赛的数据集与评价工具</h2>
@@ -388,6 +606,14 @@ footer{margin-top:56px;padding-top:22px;border-top:1px solid var(--line);
   <h2>下载中心</h2>
   <p class="lead">所有成果打包下载，点击即可保存到本地。</p>
   <div class="dl">
+    <a href="downloads/task0_report.pdf" download="置顶任务-AI剧目生成.pdf">
+      <div><div class="name">置顶任务-AI剧目生成.pdf</div><div class="desc">产能规划、调度模拟、评审一致性、赛事解析 · 18 页</div></div>
+      <div class="size">1.2 MB</div>
+    </a>
+    <a href="downloads/ai-drama-evalkit.zip">
+      <div><div class="name">ai-drama-evalkit.zip</div><div class="desc">置顶任务工具包：调度模拟 + 产能反解 + 评审一致性 + 交付体检</div></div>
+      <div class="size">30 KB</div>
+    </a>
     <a href="downloads/task1_report.pdf" download="任务1调研报告.pdf">
       <div><div class="name">任务1调研报告.pdf</div><div class="desc">官方评测竞赛数据集与工具调研 · 15 页</div></div>
       <div class="size">1.1 MB</div>
@@ -424,13 +650,18 @@ footer{margin-top:56px;padding-top:22px;border-top:1px solid var(--line);
       <div><div class="name">任务3报告源文件.md</div><div class="desc">Markdown 源码，便于二次编辑</div></div>
       <div class="size">31 KB</div>
     </a>
+    <a href="downloads/github-pages-sync.zip">
+      <div><div class="name">github-pages-sync.zip</div><div class="desc">GitHub Pages 推送包：主页 + 全部下载文件 + 一键推送脚本</div></div>
+      <div class="size">7.9 MB</div>
+    </a>
   </div>
 </section>
 
 <footer>
   生成于 2026 年 9 月 23 日 · 数据来源：NIST TREC 官方发布、TREC 2025 RAG overview、UMBRELA 相关论文、
   Anserini / Pyserini 官方回归文档、IWSLT 2019 / 2020 / 2025 / 2026 Findings、
-  SubER 原论文（Wilken et al., IWSLT 2022）与官方实现、SacreBLEU、SimulEval
+  SubER 原论文（Wilken et al., IWSLT 2022）与官方实现、SacreBLEU、SimulEval、
+  VBench / EvalCrafter / FETV / T2VSafetyBench 公开基准、虎鲸文娱「鲸锐 AI 创作大赛」公开信息
 </footer>
 
 </div>
